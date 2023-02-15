@@ -14,15 +14,7 @@ namespace ConsoleRPG.Hero.HeroClasses
             ValidWeaponTypes = new List<string>() { "Bow" };
             ValidArmorTypes = new List<string>() { "Mail", "Leather" };
         }
-        public override void SetValidArmorTypes()
-        {
-            throw new NotImplementedException();
-        }
 
-        public override void SetValidWeaponTypes()
-        {
-            throw new NotImplementedException();
-        }
         protected override void IncreaseLevelAttributes()
         {
             LevelAttributes.IncreaseStrength(1);

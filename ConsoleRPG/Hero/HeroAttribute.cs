@@ -34,7 +34,7 @@ namespace ConsoleRPG.Hero
             Intelligence += amount;
         }
 
-        // Might not need this
+        // Might not need this - overload plus
         public static HeroAttribute operator +(HeroAttribute attr1, HeroAttribute attr2)
         {
             return new HeroAttribute(

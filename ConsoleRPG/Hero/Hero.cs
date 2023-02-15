@@ -4,6 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ConsoleRPG;
+using ConsoleRPG.CustomException;
+using ConsoleRPG.Enumerators;
+using ConsoleRPG.Hero.HeroClasses;
+using ConsoleRPG.Hero.Items;
 
 namespace ConsoleRPG.Hero
 {
@@ -11,76 +15,122 @@ namespace ConsoleRPG.Hero
     {
         public string Name { get; set; }
         public int Level { get; set; }
-        // ??? hvilken attribute og hvor kombinerer man osv???
         public HeroAttribute LevelAttributes { get; set; }
-        public Dictionary<string, string> Equipment { get; set; }
-        public List<string> ValidWeaponTypes { get; set; }
-        public List<string> ValidArmorTypes { get; set; }
+        public HeroAttribute TotalAttributes { get; set; }
+        public List<WeaponTypes> ValidWeaponTypes { get; set; }
+        public List<ArmorTypes> ValidArmorTypes { get; set; }
+        public Dictionary<ArmorSlots, Item> Equipment { get; set; }
 
         //Hero name constructor
         public Hero(string name)
         {
             Name = name;
             Level = 1;
-            Equipment = new Dictionary<string, string>();
+            Equipment = new Dictionary<ArmorSlots, Item>();
 
         }
-        // Potential rename to "hero" ? overloading/polymorphism
-        public abstract void SetValidWeaponTypes();
-        public abstract void SetValidArmorTypes();
 
         // does this work??
-        public void LevelUp(int Level)
+        public void LevelUp()
         {
             Level++;
             IncreaseLevelAttributes();
+
         }
-        public void Equip(string itemType, string itemName)
+        protected abstract void IncreaseLevelAttributes();
+
+        public void Equip(Weapon weapon)
         {
-            if (itemType == "Weapon")
+            if (Level < weapon.RequiredLevel) 
             {
-                if (ValidWeaponTypes.Contains(itemName))
-                {
-                    Equipment["Weapon"] = itemName;
-                }
-                else
-                {
-                    Console.WriteLine("Invalid weapon type for this hero");
-                }
+                throw new InvalidWeaponException("You cannot equip this Weapon");
             }
-            else if (itemType == "Armor")
+            if (!ValidWeaponTypes.Contains(weapon.WeaponType))
             {
-                if (ValidArmorTypes.Contains(itemName))
-                {
-                    Equipment["Armor"] = itemName;
-                }
-                else
-                {
-                    Console.WriteLine("Invalid armor type for this hero");
-                }
+                throw new InvalidWeaponException("Weapon is of wrong type");
             }
-            else
+            Equipment[weapon.ItemSlot] = weapon;
+
+        }
+        public void Equip(Armor armor)
+        {
+            if (!ValidArmorTypes.Contains(armor.ArmorType))
             {
-                Console.WriteLine("Invalid item type");
+                throw new InvalidArmorException("You cannot equip this armor type");
             }
+
+            if (Level < armor.RequiredLevel)
+            {
+                throw new InvalidArmorException("You are not high enough level");
+            }
+            Equipment[armor.ItemSlot] = armor;
+
         }
         public int Damage()
         {
-            int damage = 0;
+            int weaponDamage = 0;
+            if (Equipment.ContainsKey(ArmorSlots.Weapon) && Equipment[ArmorSlots.Weapon] != null && Equipment[ArmorSlots.Weapon] is Weapon weapon)
+            {
+                weaponDamage = weapon.WeaponDamage;
+            }
+            else
+            {
+                weaponDamage = 1;
+            }
 
-            return damage;
+            int damagingAttribute = 0;
+
+            switch (this)
+            {
+                case Warrior:
+                    damagingAttribute = TotalAttributes.Strength;
+                    break;
+                case Mage:
+                    damagingAttribute = TotalAttributes.Intelligence;
+                    break;
+                case Ranger:
+                case Rogue:
+                    damagingAttribute = TotalAttributes.Dexterity;
+                    break;
+                default:
+                    break;
+            }
+
+            return (int)weaponDamage * (1 + damagingAttribute / 100);
         }
 
-        protected abstract void IncreaseLevelAttributes();
 
-        public void Display()
+
+        public HeroAttribute GetTotalAttributes()
         {
-            Console.WriteLine("Name: " + Name);
-            Console.WriteLine("Level: " + Level);
-            Console.WriteLine("Level attributes: " + LevelAttributes);
-            Console.WriteLine("Equipment" + string.Join(", ", Equipment));
-            Console.WriteLine("Valid Weapon types" + string.Join(", ", ValidWeaponTypes));
-            Console.WriteLine("Valid armor types" + string.Join(", ", ValidArmorTypes));
+            HeroAttribute TotalAttributes = LevelAttributes;
+            foreach(var equipment in Equipment)
+            {
+                if (equipment.Key != ArmorSlots.Weapon)
+                {
+                    if (equipment.Value is Armor armor)
+                    {
+                        TotalAttributes += armor.ArmorAttribute;
+                    }
+                }
+            }
+            return TotalAttributes;
+
+
         }
+
+        public virtual string Display()
+        {
+            StringBuilder builder = new StringBuilder();
+            builder.Append("Name: ").Append(Name).AppendLine();
+            builder.Append("Class: ").Append(GetType().Name).AppendLine();
+            builder.Append("Level: ").Append(Level).AppendLine();
+            builder.Append("Total Strength: ").Append(TotalAttributes.Strength).AppendLine();
+            builder.Append("Total Dexterity: ").Append(TotalAttributes.Dexterity).AppendLine();
+            builder.Append("Total Intelligence: ").Append(TotalAttributes.Intelligence).AppendLine();
+            builder.Append("Damage: ").Append(Damage()).AppendLine();
+            return builder.ToString();
+        }
+
     }
 }
