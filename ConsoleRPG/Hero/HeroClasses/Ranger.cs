@@ -12,6 +12,7 @@ namespace ConsoleRPG.Hero.HeroClasses
         public Ranger(string name) : base(name)
         {
             LevelAttributes = new HeroAttribute(1, 7, 1);
+            TotalAttributes = new HeroAttribute(1, 7, 1);
             ValidWeaponTypes = new List<WeaponTypes>() { WeaponTypes.Bow };
             ValidArmorTypes = new List<ArmorTypes>() { ArmorTypes.Mail, ArmorTypes.Leather };
         }

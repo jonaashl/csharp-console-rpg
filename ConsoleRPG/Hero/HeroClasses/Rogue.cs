@@ -12,6 +12,7 @@ namespace ConsoleRPG.Hero.HeroClasses
         public Rogue(string name) : base(name)
         {
             LevelAttributes = new HeroAttribute(2, 6, 1);
+            TotalAttributes = new HeroAttribute(2, 6, 1);
             ValidWeaponTypes = new List<WeaponTypes>() { WeaponTypes.Dagger, WeaponTypes.Sword };
             ValidArmorTypes = new List<ArmorTypes>() { ArmorTypes.Mail, ArmorTypes.Leather };
         }
