@@ -17,8 +17,8 @@ namespace ConsoleRPG.Hero
         public int Level { get; set; }
         public HeroAttribute LevelAttributes { get; set; }
         public HeroAttribute TotalAttributes { get; set; }
-        public List<WeaponTypes> ValidWeaponTypes { get; set; }
-        public List<ArmorTypes> ValidArmorTypes { get; set; }
+        public List<WeaponTypes> ValidWeaponTypes { get; set; } = new List<WeaponTypes>();
+        public List<ArmorTypes> ValidArmorTypes { get; set; } = new List<ArmorTypes>();
         public Dictionary<ArmorSlots, Item> Equipment { get; set; }
 
         //Hero name constructor
@@ -26,21 +26,40 @@ namespace ConsoleRPG.Hero
         {
             Name = name;
             Level = 1;
-            Equipment = new Dictionary<ArmorSlots, Item>();
+            TotalAttributes = new HeroAttribute(0, 0, 0);
+            Equipment = new Dictionary<ArmorSlots, Item>()
+            {
+                { ArmorSlots.Head, null },
+                { ArmorSlots.Body, null },
+                { ArmorSlots.Legs, null },
+                { ArmorSlots.Weapon, null }
+            };
         }
 
-        // does this work??
+
         public void LevelUp()
         {
             Level++;
             IncreaseLevelAttributes();
+            UpdateAttributes();
 
         }
         protected abstract void IncreaseLevelAttributes();
 
+        public void PrintEquippedItems()
+        {
+            foreach (var kvp in Equipment)
+            {
+                if (kvp.Value != null)
+                {
+                    Console.WriteLine($"{kvp.Key}: {kvp.Value.Name}");
+                }
+            }
+        }
+
         public void Equip(Weapon weapon)
         {
-            if (Level < weapon.RequiredLevel) 
+            if (Level < weapon.RequiredLevel)
             {
                 throw new InvalidWeaponException("You cannot equip this Weapon");
             }
@@ -65,7 +84,7 @@ namespace ConsoleRPG.Hero
             Equipment[armor.ItemSlot] = armor;
 
         }
-        public int Damage()
+        public double Damage()
         {
             int weaponDamage = 0;
             if (Equipment.ContainsKey(ArmorSlots.Weapon) && Equipment[ArmorSlots.Weapon] != null && Equipment[ArmorSlots.Weapon] is Weapon weapon)
@@ -95,28 +114,23 @@ namespace ConsoleRPG.Hero
                     break;
             }
 
-            return (int)weaponDamage * (1 + damagingAttribute / 100);
+            return (int)weaponDamage * (1 + damagingAttribute / 100.0);
         }
 
-
-
-        public HeroAttribute GetTotalAttributes()
+        public void UpdateAttributes()
         {
-            HeroAttribute TotalAttributes = LevelAttributes;
-            foreach(var equipment in Equipment)
+            this.TotalAttributes = new HeroAttribute(0, 0, 0);
+            this.TotalAttributes += this.LevelAttributes;
+            foreach (KeyValuePair<ArmorSlots, Item> item in Equipment)
             {
-                if (equipment.Key != ArmorSlots.Weapon)
+                if (item.Key != ArmorSlots.Weapon)
                 {
-                    if (equipment.Value is Armor armor)
-                    {
-                        TotalAttributes += armor.ArmorAttribute;
-                    }
+                    Armor armor = (Armor)item.Value;
+                    this.TotalAttributes += armor.ArmorAttribute;
                 }
             }
-            return TotalAttributes;
-
-
         }
+
 
         public virtual string Display()
         {
@@ -124,6 +138,10 @@ namespace ConsoleRPG.Hero
             builder.Append("Name: ").Append(Name).AppendLine();
             builder.Append("Class: ").Append(GetType().Name).AppendLine();
             builder.Append("Level: ").Append(Level).AppendLine();
+            builder.Append("Strength from levels: ").Append(LevelAttributes.Strength).AppendLine();
+            builder.Append("Dexterity from levels: ").Append(LevelAttributes.Dexterity).AppendLine();
+            builder.Append("Intelligence from levels: ").Append(LevelAttributes.Intelligence).AppendLine();
+
             builder.Append("Total Strength: ").Append(TotalAttributes.Strength).AppendLine();
             builder.Append("Total Dexterity: ").Append(TotalAttributes.Dexterity).AppendLine();
             builder.Append("Total Intelligence: ").Append(TotalAttributes.Intelligence).AppendLine();

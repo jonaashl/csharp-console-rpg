@@ -16,7 +16,6 @@ namespace ConsoleRPG.Hero.HeroClasses
         public Mage(string name) : base(name)
         {
             LevelAttributes = new HeroAttribute(1, 1, 8);
-            TotalAttributes = new HeroAttribute(1, 1, 8);
             ValidWeaponTypes = new List<WeaponTypes>() { WeaponTypes.Wand, WeaponTypes.Staff };
             ValidArmorTypes = new List<ArmorTypes>() { ArmorTypes.Cloth };
         }

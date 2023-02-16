@@ -9,9 +9,9 @@ namespace ConsoleRPG.Hero
 {
     public class HeroAttribute
     {
-        public int Strength { get; private set; }
-        public int Dexterity { get; private set; }
-        public int Intelligence { get; private set; }
+        public int Strength { get; set; }
+        public int Dexterity { get; set; }
+        public int Intelligence { get; set; }
 
         public HeroAttribute(int strength, int dexterity, int intelligence)
         {
