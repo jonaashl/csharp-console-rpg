@@ -39,7 +39,7 @@ namespace ConsoleRPG.Hero
 
         public void LevelUp()
         {
-            Level++;
+            Level = Level + 1;
             IncreaseLevelAttributes();
             UpdateAttributes();
 
@@ -123,7 +123,7 @@ namespace ConsoleRPG.Hero
             this.TotalAttributes += this.LevelAttributes;
             foreach (KeyValuePair<ArmorSlots, Item> item in Equipment)
             {
-                if (item.Key != ArmorSlots.Weapon)
+                if (item.Key != ArmorSlots.Weapon && item.Value != null && item.Value is Armor)
                 {
                     Armor armor = (Armor)item.Value;
                     this.TotalAttributes += armor.ArmorAttribute;
@@ -134,6 +134,7 @@ namespace ConsoleRPG.Hero
 
         public virtual string Display()
         {
+            UpdateAttributes();
             StringBuilder builder = new StringBuilder();
             builder.Append("Name: ").Append(Name).AppendLine();
             builder.Append("Class: ").Append(GetType().Name).AppendLine();

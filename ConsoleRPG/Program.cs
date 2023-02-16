@@ -29,6 +29,10 @@ namespace ConsoleRPG
             Jonas.LevelUp();
             Jonas.LevelUp();
             Console.WriteLine(Jonas.Display());
+            Warrior warrior = new Warrior("Garrosh");
+            Console.WriteLine(warrior.Display());
+            warrior.LevelUp();
+            Console.WriteLine(warrior.Display());
 
 
         }
