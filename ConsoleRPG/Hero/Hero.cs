@@ -27,7 +27,6 @@ namespace ConsoleRPG.Hero
             Name = name;
             Level = 1;
             Equipment = new Dictionary<ArmorSlots, Item>();
-
         }
 
         // does this work??

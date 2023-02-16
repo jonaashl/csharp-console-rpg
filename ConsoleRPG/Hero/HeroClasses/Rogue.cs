@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ConsoleRPG.Enumerators;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,18 +12,10 @@ namespace ConsoleRPG.Hero.HeroClasses
         public Rogue(string name) : base(name)
         {
             LevelAttributes = new HeroAttribute(2, 6, 1);
-            ValidWeaponTypes = new List<string>() { "Dagger", "Sword"};
-            ValidArmorTypes = new List<string>() { "Mail", "Leather" };
-        }
-        public override void SetValidArmorTypes()
-        {
-            throw new NotImplementedException();
+            ValidWeaponTypes = new List<WeaponTypes>() { WeaponTypes.Dagger, WeaponTypes.Sword };
+            ValidArmorTypes = new List<ArmorTypes>() { ArmorTypes.Mail, ArmorTypes.Leather };
         }
 
-        public override void SetValidWeaponTypes()
-        {
-            throw new NotImplementedException();
-        }
         protected override void IncreaseLevelAttributes()
         {
             LevelAttributes.IncreaseStrength(1);

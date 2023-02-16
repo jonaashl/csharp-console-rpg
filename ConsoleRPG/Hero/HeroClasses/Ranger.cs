@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ConsoleRPG.Enumerators;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,8 +12,8 @@ namespace ConsoleRPG.Hero.HeroClasses
         public Ranger(string name) : base(name)
         {
             LevelAttributes = new HeroAttribute(1, 7, 1);
-            ValidWeaponTypes = new List<string>() { "Bow" };
-            ValidArmorTypes = new List<string>() { "Mail", "Leather" };
+            ValidWeaponTypes = new List<WeaponTypes>() { WeaponTypes.Bow };
+            ValidArmorTypes = new List<ArmorTypes>() { ArmorTypes.Mail, ArmorTypes.Leather };
         }
 
         protected override void IncreaseLevelAttributes()
