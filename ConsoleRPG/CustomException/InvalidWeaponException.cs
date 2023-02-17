@@ -8,6 +8,7 @@ namespace ConsoleRPG.CustomException
 {
     public class InvalidWeaponException : Exception
     {
+        // Custom exception
         public InvalidWeaponException(string? message) : base(message)
         {
         }

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace ConsoleRPG.Enumerators
 {
+    // Enums.. ? 
         public enum ArmorSlots
         {
             Weapon,

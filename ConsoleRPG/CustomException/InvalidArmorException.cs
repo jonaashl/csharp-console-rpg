@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace ConsoleRPG.CustomException
 {
-    internal class InvalidArmorException : Exception
+    public class InvalidArmorException : Exception
     {
+        // Custom exception
+
         public InvalidArmorException(string? message) : base(message)
         {
 

@@ -12,13 +12,16 @@ namespace ConsoleRPG.Hero
         public int Strength { get; set; }
         public int Dexterity { get; set; }
         public int Intelligence { get; set; }
-
+        
+        // Constructor
         public HeroAttribute(int strength, int dexterity, int intelligence)
         {
             Strength = strength;
             Dexterity = dexterity;
             Intelligence = intelligence;
         }
+
+        // Methods to increment the attributes of a hero
         public void IncreaseStrength(int amount)
         {
             Strength += amount;
@@ -34,7 +37,7 @@ namespace ConsoleRPG.Hero
             Intelligence += amount;
         }
 
-        // Might not need this - overload plus
+        // overload plus operator to be able to add to instances of an object
         public static HeroAttribute operator +(HeroAttribute attr1, HeroAttribute attr2)
         {
             return new HeroAttribute(

@@ -9,6 +9,8 @@ namespace ConsoleRPG.Hero.HeroClasses
 {
     public class Rogue : Hero
     {
+        // Constructor. Sets Level and total attributes on creatiion, also defines what armor and weapontypes this class can use.
+
         public Rogue(string name) : base(name)
         {
             LevelAttributes = new HeroAttribute(2, 6, 1);
@@ -17,6 +19,7 @@ namespace ConsoleRPG.Hero.HeroClasses
             ValidArmorTypes = new List<ArmorTypes>() { ArmorTypes.Mail, ArmorTypes.Leather };
         }
 
+        //overrides the abstract method in the Hero class
         protected override void IncreaseLevelAttributes()
         {
             LevelAttributes.IncreaseStrength(1);

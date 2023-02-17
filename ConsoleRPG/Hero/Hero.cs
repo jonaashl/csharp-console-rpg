@@ -21,7 +21,7 @@ namespace ConsoleRPG.Hero
         public List<ArmorTypes> ValidArmorTypes { get; set; } = new List<ArmorTypes>();
         public Dictionary<ArmorSlots, Item> Equipment { get; set; }
 
-        //Hero name constructor
+        //Hero constructor
         public Hero(string name)
         {
             Name = name;
@@ -36,7 +36,10 @@ namespace ConsoleRPG.Hero
             };
         }
 
-
+        /// <summary>
+        /// LevelUp function which also calls 2 other functions on levelUp.
+        /// Increases HeroAttributes LevelingAttributes, before it calls UpdateAttributes which calculate totalAttributes
+        /// </summary>
         public void LevelUp()
         {
             Level = Level + 1;
@@ -44,8 +47,10 @@ namespace ConsoleRPG.Hero
             UpdateAttributes();
 
         }
+        // Abstract method that is being overridden in the Subclasses depending on how their Attributes increase
         protected abstract void IncreaseLevelAttributes();
 
+        // Method that prints the items a Hero has equipped, mostly just for my own sake to see if stuff worked.
         public void PrintEquippedItems()
         {
             foreach (var kvp in Equipment)
@@ -57,6 +62,12 @@ namespace ConsoleRPG.Hero
             }
         }
 
+        /// <summary>
+        /// Method Equip takes in a weapon as parameter, it checks if the weapon is equippable based on level and type.
+        /// If it is not equippable it throws a custom error. else; Equip the weapon
+        /// </summary>
+        /// <param name="weapon"></param>
+        /// <exception cref="InvalidWeaponException"></exception>
         public void Equip(Weapon weapon)
         {
             if (Level < weapon.RequiredLevel)
@@ -67,9 +78,23 @@ namespace ConsoleRPG.Hero
             {
                 throw new InvalidWeaponException("Weapon is of wrong type");
             }
-            Equipment[weapon.ItemSlot] = weapon;
+            // Also added a check for if a weapon is equipped. if a weapon is equipped, replace the weapon.
+            if (Equipment.ContainsKey(ArmorSlots.Weapon) && Equipment[weapon.ItemSlot] is Weapon)
+            {
+                Weapon equippedWeapon = (Weapon)Equipment[ArmorSlots.Weapon];
+                equippedWeapon.WeaponDamage = weapon.WeaponDamage;
+            }
 
+            Equipment[weapon.ItemSlot] = weapon;
+            UpdateAttributes();
         }
+
+        /// <summary>
+        /// Method equip takes in armor as a parameter, it checks if the armor is equippable based on required level and armorType.
+        /// if its not equippable, throw custom error. if it is equippable- Equip armor item.
+        /// </summary>
+        /// <param name="armor"></param>
+        /// <exception cref="InvalidArmorException"></exception>
         public void Equip(Armor armor)
         {
             if (!ValidArmorTypes.Contains(armor.ArmorType))
@@ -81,9 +106,26 @@ namespace ConsoleRPG.Hero
             {
                 throw new InvalidArmorException("You are not high enough level");
             }
-            Equipment[armor.ItemSlot] = armor;
-
+            // Also added a check for if an armor piece is equipped. if an armor piece is equipped, replace the armor piece.
+            if (Equipment.ContainsKey(armor.ItemSlot) && Equipment[armor.ItemSlot] is Armor)
+            {
+                Armor equippedArmor = (Armor)Equipment[armor.ItemSlot];
+                equippedArmor.ArmorAttribute = armor.ArmorAttribute;
+            }
+            else
+            {
+                Equipment[armor.ItemSlot] = armor;
+            }
+            UpdateAttributes();
         }
+
+        /// <summary>
+        /// Damage function to calculate damage. Checks if weapon is equipped, sets weaponDamage to the weapons Damage.
+        /// If no weapon damage, set weaponDamage to 1
+        /// a subclass' mainstat is also their damagingAttribute, made a switch statement based on what class is calling the damage method.
+        /// then returns the damage.
+        /// </summary>
+        /// <returns></returns>
         public double Damage()
         {
             int weaponDamage = 0;
@@ -117,7 +159,7 @@ namespace ConsoleRPG.Hero
             return (int)weaponDamage * (1 + damagingAttribute / 100.0);
         }
 
-        
+        // Small method to update the totalAttributes of a Hero. This function adds Level and Armor attributes to the TotalAttributes variable.
         public void UpdateAttributes()
         {
             TotalAttributes = new HeroAttribute(0, 0, 0);
@@ -132,7 +174,7 @@ namespace ConsoleRPG.Hero
             }
         }
 
-
+        // Displays the Hero using a string builder
         public virtual string Display()
         {
             UpdateAttributes();

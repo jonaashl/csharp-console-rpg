@@ -9,10 +9,13 @@ namespace ConsoleRPG.Hero.Items
 {
     public abstract class Item
     {
+        // Props
+
         public string Name { get; set; }
         public int RequiredLevel { get; }
         public ArmorSlots ItemSlot { get; set; }
 
+        // Constructor
         public Item(string name, int requiredLevel, ArmorSlots ItemSlot)
         {
             this.Name = name;

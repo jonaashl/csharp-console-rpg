@@ -13,6 +13,7 @@ namespace ConsoleRPG.Hero.HeroClasses
 {
     public class Mage : Hero
     {
+        // Constructor. Sets Level and total attributes on creatiion, also defines what armor and weapontypes this class can use.
         public Mage(string name) : base(name)
         {
             LevelAttributes = new HeroAttribute(1, 1, 8);
@@ -21,6 +22,7 @@ namespace ConsoleRPG.Hero.HeroClasses
             ValidArmorTypes = new List<ArmorTypes>() { ArmorTypes.Cloth };
         }
 
+        //overrides the abstract method in the Hero class
         protected override void IncreaseLevelAttributes()
         {
             LevelAttributes.IncreaseStrength(1);
