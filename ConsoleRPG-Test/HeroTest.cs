@@ -156,5 +156,47 @@ namespace ConsoleRPG_Test
             Assert.Equal(expected.Intelligence, actual.Intelligence);
 
         }
+        [Fact]
+        public void MageLevelUp_Increase_HeroAttributes_ByIncrement_LevelAttributes()
+        {
+            Mage mage = new Mage("Jonas");
+            mage.LevelUp();
+
+            HeroAttribute expected = new HeroAttribute(2, 2, 13);
+            HeroAttribute actual = mage.LevelAttributes;
+
+            Assert.Equal(expected.Strength, actual.Strength);
+            Assert.Equal(expected.Dexterity, actual.Dexterity);
+            Assert.Equal(expected.Intelligence, actual.Intelligence);
+
+        }
+        [Fact]
+        public void RogueLevelUp_Increase_HeroAttributes_ByIncrement_LevelAttributes()
+        {
+            Rogue rogue = new Rogue("Jonas");
+            rogue.LevelUp();
+
+            HeroAttribute expected = new HeroAttribute(3, 10, 2);
+            HeroAttribute actual = rogue.LevelAttributes;
+
+            Assert.Equal(expected.Strength, actual.Strength);
+            Assert.Equal(expected.Dexterity, actual.Dexterity);
+            Assert.Equal(expected.Intelligence, actual.Intelligence);
+
+        }
+        [Fact]
+        public void RangerLevelUp_Increase_HeroAttributes_ByIncrement_LevelAttributes()
+        {
+            Ranger ranger = new Ranger("Jonas");
+            ranger.LevelUp();
+
+            HeroAttribute expected = new HeroAttribute(2, 12, 2);
+            HeroAttribute actual = ranger.LevelAttributes;
+
+            Assert.Equal(expected.Strength, actual.Strength);
+            Assert.Equal(expected.Dexterity, actual.Dexterity);
+            Assert.Equal(expected.Intelligence, actual.Intelligence);
+
+        }
     }
 }

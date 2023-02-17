@@ -117,16 +117,17 @@ namespace ConsoleRPG.Hero
             return (int)weaponDamage * (1 + damagingAttribute / 100.0);
         }
 
+        
         public void UpdateAttributes()
         {
-            this.TotalAttributes = new HeroAttribute(0, 0, 0);
-            this.TotalAttributes += this.LevelAttributes;
+            TotalAttributes = new HeroAttribute(0, 0, 0);
+            TotalAttributes += LevelAttributes;
             foreach (KeyValuePair<ArmorSlots, Item> item in Equipment)
             {
                 if (item.Key != ArmorSlots.Weapon && item.Value != null && item.Value is Armor)
                 {
                     Armor armor = (Armor)item.Value;
-                    this.TotalAttributes += armor.ArmorAttribute;
+                    TotalAttributes += armor.ArmorAttribute;
                 }
             }
         }
