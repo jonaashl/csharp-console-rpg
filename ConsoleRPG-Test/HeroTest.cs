@@ -102,9 +102,7 @@ namespace ConsoleRPG_Test
             HeroAttribute expected = new HeroAttribute(5, 2, 1);
             HeroAttribute actual = warrior.TotalAttributes;
             
-            Assert.Equal(expected.Strength, actual.Strength);
-            Assert.Equal(expected.Dexterity, actual.Dexterity);
-            Assert.Equal(expected.Intelligence, actual.Intelligence);
+            Assert.Equivalent(expected, actual);
         }
         [Fact]
         public void HeroAttributes_When_HeroOfType_Rogue_isCreated()
@@ -114,9 +112,7 @@ namespace ConsoleRPG_Test
             HeroAttribute expected = new HeroAttribute(2, 6, 1);
             HeroAttribute actual = rogue.TotalAttributes;
 
-            Assert.Equal(expected.Strength, actual.Strength);
-            Assert.Equal(expected.Dexterity, actual.Dexterity);
-            Assert.Equal(expected.Intelligence, actual.Intelligence);
+            Assert.Equivalent(expected, actual);
         }
         [Fact]
         public void HeroAttributes_When_HeroOfType_Ranger_isCreated()
@@ -126,9 +122,7 @@ namespace ConsoleRPG_Test
             HeroAttribute expected = new HeroAttribute(1, 7, 1);
             HeroAttribute actual = ranger.TotalAttributes;
 
-            Assert.Equal(expected.Strength, actual.Strength);
-            Assert.Equal(expected.Dexterity, actual.Dexterity);
-            Assert.Equal(expected.Intelligence, actual.Intelligence);
+            Assert.Equivalent(expected, actual);
         }
         [Fact]
         public void HeroAttributes_When_HeroOfType_Mage_isCreated()
@@ -138,9 +132,7 @@ namespace ConsoleRPG_Test
             HeroAttribute expected = new HeroAttribute(1, 1, 8);
             HeroAttribute actual = mage.TotalAttributes;
 
-            Assert.Equal(expected.Strength, actual.Strength);
-            Assert.Equal(expected.Dexterity, actual.Dexterity);
-            Assert.Equal(expected.Intelligence, actual.Intelligence);
+            Assert.Equivalent(expected, actual);
         }
         [Fact]
         public void WarriorLevelUp_Increase_HeroAttributes_ByIncrement_LevelAttributes()
@@ -151,9 +143,7 @@ namespace ConsoleRPG_Test
             HeroAttribute expected = new HeroAttribute(8, 4, 2);
             HeroAttribute actual = warrior.LevelAttributes;
 
-            Assert.Equal(expected.Strength, actual.Strength);
-            Assert.Equal(expected.Dexterity, actual.Dexterity);
-            Assert.Equal(expected.Intelligence, actual.Intelligence);
+            Assert.Equivalent(expected, actual);
 
         }
         [Fact]
@@ -165,9 +155,7 @@ namespace ConsoleRPG_Test
             HeroAttribute expected = new HeroAttribute(2, 2, 13);
             HeroAttribute actual = mage.LevelAttributes;
 
-            Assert.Equal(expected.Strength, actual.Strength);
-            Assert.Equal(expected.Dexterity, actual.Dexterity);
-            Assert.Equal(expected.Intelligence, actual.Intelligence);
+            Assert.Equivalent(expected, actual);
 
         }
         [Fact]
@@ -178,12 +166,11 @@ namespace ConsoleRPG_Test
 
             HeroAttribute expected = new HeroAttribute(3, 10, 2);
             HeroAttribute actual = rogue.LevelAttributes;
-
-            Assert.Equal(expected.Strength, actual.Strength);
-            Assert.Equal(expected.Dexterity, actual.Dexterity);
-            Assert.Equal(expected.Intelligence, actual.Intelligence);
+            
+            Assert.Equivalent(expected, actual);
 
         }
+
         [Fact]
         public void RangerLevelUp_Increase_HeroAttributes_ByIncrement_LevelAttributes()
         {
@@ -193,9 +180,7 @@ namespace ConsoleRPG_Test
             HeroAttribute expected = new HeroAttribute(2, 12, 2);
             HeroAttribute actual = ranger.LevelAttributes;
 
-            Assert.Equal(expected.Strength, actual.Strength);
-            Assert.Equal(expected.Dexterity, actual.Dexterity);
-            Assert.Equal(expected.Intelligence, actual.Intelligence);
+            Assert.Equivalent(expected, actual);
 
         }
     }
